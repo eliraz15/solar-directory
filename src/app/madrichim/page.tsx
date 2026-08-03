@@ -21,15 +21,17 @@ export default async function GuidesIndexPage() {
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-12">
-        <h1 className="mb-8 text-3xl font-semibold">מדריכים</h1>
+        <h1 className="mb-8 text-3xl font-extrabold text-brand">מדריכים</h1>
         <div className="flex flex-col gap-4">
           {(articles ?? []).map((a) => (
             <Link
               key={a.slug}
               href={`/madrichim/${a.slug}`}
-              className="rounded-lg border border-border p-4 hover:border-brand"
+              className="group rounded-xl border border-border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
             >
-              <h2 className="text-lg font-medium">{a.title}</h2>
+              <h2 className="text-lg font-semibold text-foreground group-hover:text-brand">
+                {a.title}
+              </h2>
               {a.excerpt && <p className="mt-1 text-sm text-muted">{a.excerpt}</p>}
               <p className="mt-2 text-xs text-muted">
                 עודכן ב-{new Date(a.updated_at).toLocaleDateString("he-IL")}

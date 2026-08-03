@@ -12,14 +12,14 @@ export default function AboutPage() {
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-12 text-muted">
-        <h1 className="mb-6 text-2xl font-semibold text-foreground">שקיפות ואודות</h1>
+        <h1 className="mb-6 text-2xl font-extrabold text-brand">שקיפות ואודות</h1>
 
         <p className="mb-4">
           solar.org.il הוא מדריך עצמאי למערכות סולאריות פוטו-וולטאיות בישראל. אנחנו
           כותבים מדריכי תוכן, ולצד זה מפעילים מדריך בעלי מקצוע ממומן.
         </p>
 
-        <h2 className="mb-2 mt-6 text-lg font-medium text-foreground">
+        <h2 className="mb-2 mt-6 text-lg font-bold text-brand">
           איך בעלי המקצוע נבחרים?
         </h2>
         <p className="mb-4">
@@ -28,7 +28,7 @@ export default function AboutPage() {
           המלצה מקצועית בלעדית - מומלץ להשוות מספר הצעות לפני קבלת החלטה.
         </p>
 
-        <h2 className="mb-2 mt-6 text-lg font-medium text-foreground">
+        <h2 className="mb-2 mt-6 text-lg font-bold text-brand">
           קטגוריית ניטור מערכות
         </h2>
         <p className="mb-4">

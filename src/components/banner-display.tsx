@@ -25,7 +25,7 @@ export async function BannerDisplay({
         className="block"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={banner.image_url} alt="" className="w-full rounded-lg object-cover" />
+        <img src={banner.image_url} alt="" className="w-full rounded-xl object-cover shadow-sm" />
       </a>
     </div>
   );

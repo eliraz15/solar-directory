@@ -74,7 +74,7 @@ export default async function CategoryPage({
       />
       <SiteHeader />
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-12">
-        <h1 className="mb-2 text-3xl font-semibold">{category.name}</h1>
+        <h1 className="mb-2 text-3xl font-extrabold text-brand">{category.name}</h1>
         {category.description && (
           <p className="mb-6 text-muted">{category.description}</p>
         )}
@@ -93,19 +93,23 @@ export default async function CategoryPage({
               href={`/baalei-miktzoa/${category.slug}/${p.slug}`}
               className={
                 p.is_house_brand
-                  ? "flex items-center gap-4 rounded-lg border-2 border-sun/60 bg-sun/5 p-4"
-                  : "flex items-center gap-4 rounded-lg border border-border p-4 hover:border-brand"
+                  ? "flex items-center gap-4 rounded-xl border-2 border-sun bg-sun/10 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                  : "group flex items-center gap-4 rounded-xl border border-border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
               }
             >
-              {p.logo_url && (
+              {p.logo_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={p.logo_url} alt="" className="h-12 w-12 rounded object-contain" />
+                <img src={p.logo_url} alt="" className="h-12 w-12 rounded-full object-contain" />
+              ) : (
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand/10 text-xl">
+                  ⚡
+                </div>
               )}
               <div>
-                <div className="flex items-center gap-2 font-medium">
+                <div className="flex items-center gap-2 font-semibold text-foreground group-hover:text-brand">
                   {p.name}
                   {p.is_house_brand && (
-                    <span className="rounded-full bg-sun/20 px-2 py-0.5 text-xs text-sun">
+                    <span className="rounded-full bg-sun px-2 py-0.5 text-xs font-bold text-brand-dark">
                       השירות שלנו
                     </span>
                   )}

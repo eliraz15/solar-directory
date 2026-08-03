@@ -67,73 +67,77 @@ export default async function ProfessionalProfilePage({
       />
       <SiteHeader />
       <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-12">
-        <Link href={`/baalei-miktzoa/${category.slug}`} className="text-sm text-brand underline">
-          חזרה ל{category.name}
+        <Link
+          href={`/baalei-miktzoa/${category.slug}`}
+          className="text-sm font-medium text-brand hover:underline"
+        >
+          ← חזרה ל{category.name}
         </Link>
 
-        <div className="mt-4 flex items-center gap-4">
-          {professional.logo_url && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={professional.logo_url}
-              alt=""
-              className="h-16 w-16 rounded object-contain"
-            />
-          )}
-          <h1 className="text-2xl font-semibold">{professional.name}</h1>
-        </div>
-
-        {professional.is_house_brand && professional.disclosure_text && (
-          <div className="mt-4 rounded bg-sun/10 px-3 py-2 text-sm text-sun">
-            {professional.disclosure_text}
+        <div className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="flex items-center gap-4">
+            {professional.logo_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={professional.logo_url}
+                alt=""
+                className="h-16 w-16 rounded-full object-contain"
+              />
+            ) : (
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand/10 text-3xl">
+                ⚡
+              </div>
+            )}
+            <h1 className="text-2xl font-extrabold text-brand">{professional.name}</h1>
           </div>
-        )}
 
-        {professional.description && (
-          <p className="mt-6 text-muted">{professional.description}</p>
-        )}
+          {professional.is_house_brand && professional.disclosure_text && (
+            <div className="mt-4 rounded-lg bg-sun/15 px-3 py-2 text-sm font-medium text-sun-dark">
+              {professional.disclosure_text}
+            </div>
+          )}
 
-        <div className="mt-6 flex flex-col gap-2 text-sm">
+          {professional.description && (
+            <p className="mt-6 text-muted">{professional.description}</p>
+          )}
+
           {professional.service_areas && (
-            <div>
-              <span className="font-medium">אזורי שירות: </span>
-              {professional.service_areas}
-            </div>
+            <p className="mt-4 text-sm">
+              <span className="font-semibold text-foreground">אזורי שירות: </span>
+              <span className="text-muted">{professional.service_areas}</span>
+            </p>
           )}
-          {professional.phone && (
-            <div>
-              <span className="font-medium">טלפון: </span>
-              <a href={`tel:${professional.phone}`} className="text-brand underline">
-                {professional.phone}
+
+          <div className="mt-6 flex flex-wrap gap-3">
+            {professional.phone && (
+              <a
+                href={`tel:${professional.phone}`}
+                className="rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
+              >
+                📞 {professional.phone}
               </a>
-            </div>
-          )}
-          {professional.whatsapp && (
-            <div>
-              <span className="font-medium">WhatsApp: </span>
+            )}
+            {professional.whatsapp && (
               <a
                 href={`https://wa.me/${professional.whatsapp.replace(/\D/g, "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-brand underline"
+                className="rounded-full bg-sun px-5 py-2 text-sm font-semibold text-brand-dark hover:bg-sun-dark"
               >
-                {professional.whatsapp}
+                💬 WhatsApp
               </a>
-            </div>
-          )}
-          {professional.website && (
-            <div>
-              <span className="font-medium">אתר: </span>
+            )}
+            {professional.website && (
               <a
                 href={professional.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-brand underline"
+                className="rounded-full border border-border px-5 py-2 text-sm font-semibold text-foreground hover:bg-border/40"
               >
-                {professional.website}
+                🌐 אתר אינטרנט
               </a>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </main>
       <SiteFooter />
