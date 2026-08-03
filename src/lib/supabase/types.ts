@@ -53,6 +53,7 @@ export type Database = {
           id: string
           meta_description: string | null
           published_at: string | null
+          related_article_id: string | null
           related_category_id: string | null
           slug: string
           status: Database["public"]["Enums"]["article_status"]
@@ -67,6 +68,7 @@ export type Database = {
           id?: string
           meta_description?: string | null
           published_at?: string | null
+          related_article_id?: string | null
           related_category_id?: string | null
           slug: string
           status?: Database["public"]["Enums"]["article_status"]
@@ -81,6 +83,7 @@ export type Database = {
           id?: string
           meta_description?: string | null
           published_at?: string | null
+          related_article_id?: string | null
           related_category_id?: string | null
           slug?: string
           status?: Database["public"]["Enums"]["article_status"]
@@ -88,6 +91,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "articles_related_article_id_fkey"
+            columns: ["related_article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "articles_related_category_id_fkey"
             columns: ["related_category_id"]

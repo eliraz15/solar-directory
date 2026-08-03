@@ -7,6 +7,7 @@ import type { Database, FaqItem } from "@/lib/supabase/types";
 
 type Category = Database["public"]["Tables"]["categories"]["Row"];
 type Article = Database["public"]["Tables"]["articles"]["Row"];
+type ArticleOption = Pick<Article, "id" | "title">;
 
 function FaqEditor({ initial }: { initial: FaqItem[] }) {
   const [items, setItems] = useState<FaqItem[]>(initial.length ? initial : []);
@@ -58,10 +59,12 @@ function FaqEditor({ initial }: { initial: FaqItem[] }) {
 
 export function ArticleForm({
   categories,
+  otherArticles,
   article,
   action,
 }: {
   categories: Category[];
+  otherArticles: ArticleOption[];
   article?: Article;
   action: (prev: ActionState, formData: FormData) => Promise<ActionState>;
 }) {
@@ -123,6 +126,22 @@ export function ArticleForm({
           {categories.map((c) => (
             <option key={c.id} value={c.id}>
               {c.name}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="text-sm">
+        מדריך קשור (קישור לקריאה נוספת בתוך המאמר)
+        <select
+          name="related_article_id"
+          defaultValue={article?.related_article_id ?? ""}
+          className="mt-1 w-full rounded border border-border px-3 py-2"
+        >
+          <option value="">ללא</option>
+          {otherArticles.map((a) => (
+            <option key={a.id} value={a.id}>
+              {a.title}
             </option>
           ))}
         </select>

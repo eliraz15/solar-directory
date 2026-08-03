@@ -2,7 +2,7 @@ export function SiteFooter() {
   return (
     <footer className="mt-16 bg-brand text-white">
       <div className="mx-auto max-w-5xl px-4 py-10 text-sm text-white/80">
-        <div className="mb-4 flex items-center gap-2 text-lg font-extrabold text-white">
+        <div dir="ltr" className="mb-4 flex items-center gap-2 text-lg font-extrabold text-white">
           <span className="text-xl leading-none">☀️</span>
           <span>solar</span>
           <span className="text-sun">.org.il</span>

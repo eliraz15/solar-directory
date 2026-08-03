@@ -4,7 +4,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-        <Link href="/" className="flex items-center gap-2 text-lg font-extrabold">
+        <Link href="/" dir="ltr" className="flex items-center gap-2 text-lg font-extrabold">
           <span className="text-2xl leading-none">☀️</span>
           <span className="text-brand">solar</span>
           <span className="text-sun">.org.il</span>

@@ -43,6 +43,7 @@ function buildFields(formData: FormData) {
     excerpt: fieldOrNull(formData, "excerpt"),
     meta_description: fieldOrNull(formData, "meta_description"),
     related_category_id: fieldOrNull(formData, "related_category_id"),
+    related_article_id: fieldOrNull(formData, "related_article_id"),
     status: status as "draft" | "published",
     faq_items: parseFaqItems(formData),
   };

@@ -29,7 +29,18 @@ async function getArticle(slug: string) {
     category = data;
   }
 
-  return { ...article, category };
+  let relatedArticle: { slug: string; title: string; excerpt: string | null } | null = null;
+  if (article.related_article_id) {
+    const { data } = await supabase
+      .from("articles")
+      .select("slug, title, excerpt")
+      .eq("id", article.related_article_id)
+      .eq("status", "published")
+      .single();
+    relatedArticle = data;
+  }
+
+  return { ...article, category, relatedArticle };
 }
 
 export async function generateMetadata({
@@ -57,7 +68,7 @@ export default async function ArticlePage({
   const article = await getArticle(slug);
   if (!article) notFound();
 
-  const { category } = article;
+  const { category, relatedArticle } = article;
   const updatedDate = new Date(article.updated_at).toLocaleDateString("he-IL");
 
   return (
@@ -136,6 +147,23 @@ export default async function ArticlePage({
                 </div>
               ))}
             </div>
+          </section>
+        )}
+
+        {relatedArticle && (
+          <section className="mt-10">
+            <h2 className="mb-4 text-xl font-bold text-brand">להמשך קריאה</h2>
+            <Link
+              href={`/madrichim/${relatedArticle.slug}`}
+              className="group block rounded-xl border border-border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            >
+              <h3 className="font-semibold text-foreground group-hover:text-brand">
+                {relatedArticle.title}
+              </h3>
+              {relatedArticle.excerpt && (
+                <p className="mt-1 text-sm text-muted">{relatedArticle.excerpt}</p>
+              )}
+            </Link>
           </section>
         )}
       </main>

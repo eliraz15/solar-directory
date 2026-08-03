@@ -11,9 +11,10 @@ export default async function EditArticlePage({
   const { id } = await params;
   const supabase = await createClient();
 
-  const [{ data: categories }, { data: article }] = await Promise.all([
+  const [{ data: categories }, { data: article }, { data: otherArticles }] = await Promise.all([
     supabase.from("categories").select("*").order("sort_order"),
     supabase.from("articles").select("*").eq("id", id).single(),
+    supabase.from("articles").select("id, title").neq("id", id).order("title"),
   ]);
 
   if (!article) notFound();
@@ -23,6 +24,7 @@ export default async function EditArticlePage({
       <h1 className="mb-6 text-2xl font-semibold">עריכת מאמר</h1>
       <ArticleForm
         categories={categories ?? []}
+        otherArticles={otherArticles ?? []}
         article={article}
         action={updateArticle.bind(null, id)}
       />
