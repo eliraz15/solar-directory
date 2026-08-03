@@ -13,6 +13,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/admin/professionals", label: "בעלי מקצוע" },
   { href: "/admin/banners", label: "באנרים" },
   { href: "/admin/articles", label: "מאמרים" },
+  { href: "/admin/settings", label: "הגדרות אתר" },
   { href: "/admin/users", label: "משתמשים", ownerOnly: true },
 ];
 

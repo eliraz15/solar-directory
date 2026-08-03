@@ -116,6 +116,40 @@ export function ArticleForm({
       </label>
 
       <label className="text-sm">
+        נושא (לקיבוץ בדף הבית ובדף המדריכים)
+        <select
+          name="topic"
+          defaultValue={article?.topic ?? ""}
+          className="mt-1 w-full rounded border border-border px-3 py-2"
+        >
+          <option value="">ללא</option>
+          <option value="production">ייצור והספק</option>
+          <option value="maintenance">ניקיון ותחזוקה</option>
+          <option value="economics">חיסכון וכלכלה</option>
+          <option value="troubleshooting">תקלות ופתרונות</option>
+        </select>
+      </label>
+
+      <label className="text-sm">
+        תמונת נושא (מוצגת בכרטיס המאמר){" "}
+        {article?.cover_image_url && "(העלאת קובץ תחליף את הקיימת)"}
+        <input
+          name="cover_image"
+          type="file"
+          accept="image/*"
+          className="mt-1 w-full rounded border border-border px-3 py-2"
+        />
+        {article?.cover_image_url && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={article.cover_image_url}
+            alt=""
+            className="mt-2 h-24 w-full rounded object-cover"
+          />
+        )}
+      </label>
+
+      <label className="text-sm">
         קטגוריית בעלי מקצוע קשורה (ל-CTA אוטומטי בתוך המאמר)
         <select
           name="related_category_id"

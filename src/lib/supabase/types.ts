@@ -47,6 +47,7 @@ export type Database = {
       articles: {
         Row: {
           content: string
+          cover_image_url: string | null
           created_at: string
           excerpt: string | null
           faq_items: FaqItem[]
@@ -58,10 +59,12 @@ export type Database = {
           slug: string
           status: Database["public"]["Enums"]["article_status"]
           title: string
+          topic: Database["public"]["Enums"]["article_topic"] | null
           updated_at: string
         }
         Insert: {
           content?: string
+          cover_image_url?: string | null
           created_at?: string
           excerpt?: string | null
           faq_items?: FaqItem[]
@@ -73,10 +76,12 @@ export type Database = {
           slug: string
           status?: Database["public"]["Enums"]["article_status"]
           title: string
+          topic?: Database["public"]["Enums"]["article_topic"] | null
           updated_at?: string
         }
         Update: {
           content?: string
+          cover_image_url?: string | null
           created_at?: string
           excerpt?: string | null
           faq_items?: FaqItem[]
@@ -88,6 +93,7 @@ export type Database = {
           slug?: string
           status?: Database["public"]["Enums"]["article_status"]
           title?: string
+          topic?: Database["public"]["Enums"]["article_topic"] | null
           updated_at?: string
         }
         Relationships: [
@@ -278,6 +284,39 @@ export type Database = {
           },
         ]
       }
+      site_settings: {
+        Row: {
+          hero_image_url: string | null
+          id: boolean
+          sunwise_banner_image_url: string | null
+          topic_economics_image_url: string | null
+          topic_maintenance_image_url: string | null
+          topic_production_image_url: string | null
+          topic_troubleshooting_image_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          hero_image_url?: string | null
+          id?: boolean
+          sunwise_banner_image_url?: string | null
+          topic_economics_image_url?: string | null
+          topic_maintenance_image_url?: string | null
+          topic_production_image_url?: string | null
+          topic_troubleshooting_image_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          hero_image_url?: string | null
+          id?: boolean
+          sunwise_banner_image_url?: string | null
+          topic_economics_image_url?: string | null
+          topic_maintenance_image_url?: string | null
+          topic_production_image_url?: string | null
+          topic_troubleshooting_image_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -289,6 +328,11 @@ export type Database = {
     Enums: {
       admin_role: "owner" | "editor"
       article_status: "draft" | "published"
+      article_topic:
+        | "production"
+        | "maintenance"
+        | "economics"
+        | "troubleshooting"
       banner_event_type: "impression" | "click"
       banner_placement:
         | "article_inline"
@@ -305,6 +349,7 @@ export type Database = {
 // Convenience aliases used across the app instead of the verbose
 // Database["public"]["Enums"][...] path.
 export type ArticleStatus = Database["public"]["Enums"]["article_status"]
+export type ArticleTopic = Database["public"]["Enums"]["article_topic"]
 export type BannerPlacement = Database["public"]["Enums"]["banner_placement"]
 export type BannerEventType = Database["public"]["Enums"]["banner_event_type"]
 export type AdminRole = Database["public"]["Enums"]["admin_role"]
