@@ -2,10 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import DOMPurify from "isomorphic-dompurify";
 import { createClient } from "@/lib/supabase/server";
 import { requireAdmin } from "@/lib/admin/auth";
 import { slugify } from "@/lib/slug";
+import { sanitizeArticleHtml } from "@/lib/sanitize";
 import type { FaqItem } from "@/lib/supabase/types";
 
 export interface ActionState {
@@ -39,7 +39,7 @@ function buildFields(formData: FormData) {
   return {
     title,
     slug: slugify(slugInput),
-    content: DOMPurify.sanitize(String(formData.get("content") ?? "")),
+    content: sanitizeArticleHtml(String(formData.get("content") ?? "")),
     excerpt: fieldOrNull(formData, "excerpt"),
     meta_description: fieldOrNull(formData, "meta_description"),
     related_category_id: fieldOrNull(formData, "related_category_id"),

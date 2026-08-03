@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import DOMPurify from "isomorphic-dompurify";
 import { createClient } from "@/lib/supabase/server";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { JsonLd } from "@/components/json-ld";
 import { BannerDisplay } from "@/components/banner-display";
+import { sanitizeArticleHtml } from "@/lib/sanitize";
 
 async function getArticle(slug: string) {
   const supabase = await createClient();
@@ -94,7 +94,7 @@ export default async function ArticlePage({
         <div
           className="prose prose-neutral max-w-none"
           // Sanitized again at render as defense in depth (already sanitized on save).
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
+          dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(article.content) }}
         />
 
         {category && (
