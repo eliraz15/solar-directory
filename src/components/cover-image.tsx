@@ -1,24 +1,34 @@
+import Image, { type StaticImageData } from "next/image";
+
+/**
+ * Fills its parent (which must be positioned). `src` is an admin-uploaded URL
+ * when one exists; otherwise the site's own photograph for that subject is used,
+ * so a card is never left without an image.
+ */
 export function CoverImage({
   src,
-  icon,
+  fallback,
   alt,
-  className,
+  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+  priority = false,
+  className = "",
 }: {
   src?: string | null;
-  icon: string;
+  fallback: StaticImageData;
   alt: string;
+  sizes?: string;
+  priority?: boolean;
   className?: string;
 }) {
+  const common = {
+    sizes,
+    priority,
+    className: `object-cover ${className}`,
+  };
+
   if (src) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img src={src} alt={alt} className={`object-cover ${className ?? ""}`} />
-    );
+    return <Image {...common} alt={alt} src={src} fill />;
   }
 
-  return (
-    <div className={`hero-gradient flex items-center justify-center ${className ?? ""}`}>
-      <span className="text-4xl">{icon}</span>
-    </div>
-  );
+  return <Image {...common} alt={alt} src={fallback} fill placeholder="blur" />;
 }

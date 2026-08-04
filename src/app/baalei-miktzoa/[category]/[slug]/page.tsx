@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { SiteHeader } from "@/components/site-header";
@@ -66,77 +67,96 @@ export default async function ProfessionalProfilePage({
         }}
       />
       <SiteHeader />
-      <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-12">
+      <main className="mx-auto w-full max-w-2xl flex-1 px-5 py-12">
         <Link
           href={`/baalei-miktzoa/${category.slug}`}
-          className="text-sm font-medium text-brand hover:underline"
+          className="text-sm font-medium text-navy-500 underline-offset-4 hover:underline"
         >
           ← חזרה ל{category.name}
         </Link>
 
-        <div className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm">
-          <div className="flex items-center gap-4">
-            {professional.logo_url ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={professional.logo_url}
-                alt=""
-                className="h-16 w-16 rounded-full object-contain"
-              />
-            ) : (
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand/10 text-3xl">
-                ⚡
+        <div className="mt-6 overflow-hidden rounded-md border border-line bg-card">
+          <div className="h-1 bg-gradient-to-l from-gold-500 to-navy-700" />
+
+          <div className="p-6 sm:p-8">
+            <div className="flex items-center gap-4">
+              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-line bg-paper">
+                {professional.logo_url ? (
+                  <Image
+                    src={professional.logo_url}
+                    alt=""
+                    fill
+                    sizes="4rem"
+                    className="object-contain"
+                  />
+                ) : (
+                  <span
+                    aria-hidden="true"
+                    className="unit flex h-full w-full items-center justify-center text-xl font-semibold text-silver-500"
+                  >
+                    {professional.name.trim().charAt(0)}
+                  </span>
+                )}
               </div>
-            )}
-            <h1 className="text-2xl font-extrabold text-brand">{professional.name}</h1>
-          </div>
-
-          {professional.is_house_brand && professional.disclosure_text && (
-            <div className="mt-4 rounded-lg bg-sun/15 px-3 py-2 text-sm font-medium text-sun-dark">
-              {professional.disclosure_text}
+              <h1 className="display text-[1.75rem] leading-tight text-heading">
+                {professional.name}
+              </h1>
             </div>
-          )}
 
-          {professional.description && (
-            <p className="mt-6 text-muted">{professional.description}</p>
-          )}
+            {professional.is_house_brand && professional.disclosure_text && (
+              <p className="mt-5 border-r-2 border-gold-500 bg-gold-500/[0.09] px-4 py-3 text-sm font-medium text-foreground">
+                {professional.disclosure_text}
+              </p>
+            )}
 
-          {professional.service_areas && (
-            <p className="mt-4 text-sm">
-              <span className="font-semibold text-foreground">אזורי שירות: </span>
-              <span className="text-muted">{professional.service_areas}</span>
-            </p>
-          )}
+            {professional.description && (
+              <p className="mt-6 leading-relaxed text-muted">
+                {professional.description}
+              </p>
+            )}
 
-          <div className="mt-6 flex flex-wrap gap-3">
-            {professional.phone && (
-              <a
-                href={`tel:${professional.phone}`}
-                className="rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
-              >
-                📞 {professional.phone}
-              </a>
+            {professional.service_areas && (
+              <p className="mt-5 text-sm">
+                <span className="unit text-[0.6875rem] uppercase tracking-[0.14em] text-gold-700">
+                  אזורי שירות
+                </span>
+                <br />
+                <span className="text-foreground">
+                  {professional.service_areas}
+                </span>
+              </p>
             )}
-            {professional.whatsapp && (
-              <a
-                href={`https://wa.me/${professional.whatsapp.replace(/\D/g, "")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-sun px-5 py-2 text-sm font-semibold text-brand-dark hover:bg-sun-dark"
-              >
-                💬 WhatsApp
-              </a>
-            )}
-            {professional.website && (
-              <a
-                href={professional.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-border px-5 py-2 text-sm font-semibold text-foreground hover:bg-border/40"
-              >
-                🌐 אתר אינטרנט
-              </a>
-            )}
+
+            <div className="mt-7 flex flex-wrap gap-3">
+              {professional.phone && (
+                <a
+                  href={`tel:${professional.phone}`}
+                  className="unit rounded-full bg-navy-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-900"
+                >
+                  {professional.phone}
+                </a>
+              )}
+              {professional.whatsapp && (
+                <a
+                  href={`https://wa.me/${professional.whatsapp.replace(/\D/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-gold-500 px-5 py-2.5 text-sm font-semibold text-navy-900 transition-colors hover:bg-gold-700 hover:text-white"
+                >
+                  שלחו הודעה בוואטסאפ
+                </a>
+              )}
+              {professional.website && (
+                <a
+                  href={professional.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-silver-500"
+                >
+                  לאתר
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </main>

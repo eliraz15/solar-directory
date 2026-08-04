@@ -1,58 +1,341 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   solar.org.il — tokens
+   Navy/gold is the SunWise brand and stays fixed. --silver is the one addition:
+   an aluminum line colour that exists only to draw photovoltaic module framing.
+   --------------------------------------------------------------------------- */
+
 :root {
   --background: #ffffff;
-  --foreground: #122036;
-  --color-brand: #123a70;
-  --color-brand-dark: #0c2850;
-  --color-sun: #f6a623;
-  --color-sun-dark: #d98c0f;
-  --color-muted: #5b6b7d;
-  --color-border: #e4e9f0;
-  --color-card: #ffffff;
-  --color-surface: #f4f6f9;
+  --foreground: #0d1b2c;
+
+  --navy-900: #071a2f;
+  --navy-700: #103a6b;
+  --navy-500: #1d5599;
+
+  --gold-500: #f6a623;
+  /* Deep amber rather than the brand gold: gold-500 on white is 2.2:1, and this
+     token is used for 11px eyebrow labels. 5.1:1 on white, 4.8:1 on paper. */
+  --gold-700: #9c6006;
+
+  --silver-300: #c4d0e0;
+  --silver-500: #8fa2b8;
+
+  --paper: #f4f7fa;
+  --card: #ffffff;
+  --line: #e2e8f1;
+  --muted: #55677d;
+
+  /* Headings need their own token: navy-700 doubles as a button fill, so it
+     can't be lightened for dark mode without wrecking the buttons. */
+  --heading: var(--navy-700);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-brand: var(--color-brand);
-  --color-brand-dark: var(--color-brand-dark);
-  --color-sun: var(--color-sun);
-  --color-sun-dark: var(--color-sun-dark);
-  --color-muted: var(--color-muted);
-  --color-border: var(--color-border);
-  --color-card: var(--color-card);
-  --color-surface: var(--color-surface);
-  --font-sans: var(--font-assistant);
-  --font-heading: var(--font-heebo);
+
+  --color-navy-900: var(--navy-900);
+  --color-navy-700: var(--navy-700);
+  --color-navy-500: var(--navy-500);
+
+  --color-gold-500: var(--gold-500);
+  --color-gold-700: var(--gold-700);
+
+  --color-silver-300: var(--silver-300);
+  --color-silver-500: var(--silver-500);
+
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-heading: var(--heading);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  /* Compatibility aliases. The admin area (not part of this redesign) still
+     uses the previous token names; these keep it rendering on the new palette
+     instead of falling back to unstyled. */
+  --color-brand: var(--navy-700);
+  --color-brand-dark: var(--navy-900);
+  --color-sun: var(--gold-500);
+  --color-sun-dark: var(--gold-700);
+  --color-border: var(--line);
+  --color-surface: var(--paper);
+  --font-heading: var(--font-display);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a1626;
-    --foreground: #eef2f7;
-    --color-border: #1e3049;
-    --color-muted: #90a0b5;
-    --color-card: #0f1f36;
+    --background: #060f1c;
+    --foreground: #e9eef5;
+    --paper: #0a1727;
+    --card: #0d1e33;
+    --line: #1b3049;
+    --muted: #93a5bb;
+    --silver-300: #2c4460;
+    --silver-500: #6e86a3;
+    --navy-500: #61a0e8;
+    --gold-700: #f6a623;
+    --heading: #dce8f6;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.65;
 }
 
-.hero-gradient {
-  background: radial-gradient(circle at 15% 15%, #f6a623 0%, transparent 38%),
-    linear-gradient(135deg, #0c2850 0%, #123a70 55%, #1c4f8a 100%);
+/* Type roles ---------------------------------------------------------------- */
+
+.display {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
 }
 
-@keyframes fade-in-up {
+.unit {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Mono eyebrow with a short gold rule. Reads as a label, not decoration. */
+.eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 2px;
+  background: var(--gold-500);
+  flex: none;
+}
+
+/* The module ---------------------------------------------------------------
+   Four topics rendered as the four cells of one photovoltaic module: an
+   aluminium frame, hairline mullions, glass over each cell.
+   --------------------------------------------------------------------------- */
+
+.module {
+  --mullion: 4px;
+  background: linear-gradient(
+    160deg,
+    var(--silver-300) 0%,
+    var(--silver-500) 52%,
+    var(--silver-300) 100%
+  );
+  padding: var(--mullion);
+  border-radius: 7px;
+  display: grid;
+  gap: var(--mullion);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+    0 20px 44px -26px rgba(7, 26, 47, 0.6);
+}
+
+.cell {
+  position: relative;
+  overflow: hidden;
+  background: var(--navy-900);
+  isolation: isolate;
+}
+
+/* Specular sweep: the way sun actually crosses panel glass. */
+.cell::after {
+  content: "";
+  position: absolute;
+  inset: -60% -10%;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
+    108deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.32) 46%,
+    rgba(255, 236, 195, 0.5) 50%,
+    rgba(255, 255, 255, 0.32) 54%,
+    transparent 62%
+  );
+  transform: translateX(-115%);
+  transition: transform 0.85s cubic-bezier(0.22, 0.68, 0.35, 1);
+}
+
+.cell:hover::after,
+.cell:focus-visible::after {
+  transform: translateX(115%);
+}
+
+.cell img {
+  transition: transform 0.7s cubic-bezier(0.22, 0.68, 0.35, 1);
+}
+
+.cell:hover img,
+.cell:focus-visible img {
+  transform: scale(1.045);
+}
+
+/* Article body -------------------------------------------------------------- */
+
+.article-body {
+  font-size: 1.0625rem;
+}
+
+.article-body > h2 {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--heading);
+  margin: 3rem 0 0.85rem;
+}
+
+.article-body > h3 {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--foreground);
+  margin: 2rem 0 0.5rem;
+}
+
+.article-body p {
+  margin-bottom: 1.25rem;
+  line-height: 1.8;
+}
+
+.article-body ul,
+.article-body ol {
+  margin: 0 0 1.35rem;
+  padding-inline-start: 1.5rem;
+}
+
+.article-body ul {
+  list-style: disc;
+}
+
+.article-body ol {
+  list-style: decimal;
+}
+
+.article-body li {
+  margin-bottom: 0.5rem;
+  line-height: 1.75;
+}
+
+.article-body li::marker {
+  color: var(--silver-500);
+}
+
+.article-body a {
+  color: var(--navy-500);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.article-body a:hover {
+  color: var(--navy-700);
+}
+
+.article-body strong {
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.article-body blockquote {
+  margin: 1.75rem 0;
+  border-inline-start: 2px solid var(--gold-500);
+  background: var(--paper);
+  padding: 1rem 1.25rem;
+  line-height: 1.7;
+}
+
+.article-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.article-body table {
+  width: 100%;
+  margin: 1.5rem 0;
+  font-size: 0.9375rem;
+  border-collapse: collapse;
+}
+
+.article-body th,
+.article-body td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.55rem 0;
+  text-align: start;
+}
+
+.article-body th {
+  font-weight: 600;
+}
+
+.article-body img {
+  border-radius: 6px;
+  margin: 1.75rem 0;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Scrims -------------------------------------------------------------------- */
+
+/* Directional only. The photograph's own sunrise is the warm element — a gold
+   overlay on top of it just muddies both. */
+.scrim-hero {
+  background:
+    linear-gradient(
+      to left,
+      rgba(7, 26, 47, 0.93) 0%,
+      rgba(7, 26, 47, 0.74) 42%,
+      rgba(7, 26, 47, 0.34) 100%
+    ),
+    /* Flat base so a bright photograph can't push white text under contrast. */
+      linear-gradient(rgba(7, 26, 47, 0.22), rgba(7, 26, 47, 0.22));
+}
+
+/* Flat base + gradient. The base is what keeps four photographs of different
+   exposures sitting in the same tonal range, which is what stops a photo grid
+   looking like a mood board. */
+.scrim-cell {
+  background:
+    linear-gradient(
+      to top,
+      rgba(7, 26, 47, 0.95) 0%,
+      rgba(7, 26, 47, 0.62) 46%,
+      rgba(7, 26, 47, 0.22) 100%
+    ),
+    linear-gradient(rgba(7, 26, 47, 0.26), rgba(7, 26, 47, 0.26));
+}
+
+.scrim-band {
+  background: linear-gradient(
+    to left,
+    rgba(7, 26, 47, 0.95) 0%,
+    rgba(7, 26, 47, 0.82) 55%,
+    rgba(16, 58, 107, 0.72) 100%
+  );
+}
+
+/* Motion -------------------------------------------------------------------- */
+
+@keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(18px);
   }
   to {
     opacity: 1;
@@ -60,17 +343,29 @@ body {
   }
 }
 
-.animate-fade-in-up {
-  animation: fade-in-up 0.5s ease-out both;
+.rise {
+  animation: rise 0.7s cubic-bezier(0.22, 0.68, 0.35, 1) both;
 }
 
-.btn-glow {
-  transition:
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+/* Focus --------------------------------------------------------------------- */
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--gold-500);
+  outline-offset: 3px;
+  border-radius: 3px;
 }
 
-.btn-glow:hover {
-  box-shadow: 0 0 22px 2px rgba(246, 166, 35, 0.55);
-  transform: translateY(-1px);
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .cell::after {
+    display: none;
+  }
 }

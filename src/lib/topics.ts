@@ -9,11 +9,12 @@ export const TOPIC_LABELS: Record<ArticleTopic, string> = {
   troubleshooting: "תקלות ופתרונות",
 };
 
-export const TOPIC_ICONS: Record<ArticleTopic, string> = {
-  production: "☀️",
-  maintenance: "🧹",
-  economics: "💰",
-  troubleshooting: "⚡",
+/** One line on what the topic actually answers — shown on the topic cells. */
+export const TOPIC_BLURBS: Record<ArticleTopic, string> = {
+  production: "כמה המערכת אמורה לייצר, ומה מוריד את התפוקה בפועל",
+  maintenance: "מתי לנקות, מי מנקה, וכמה עולה הזנחה",
+  economics: "עלות, החזר השקעה ומה באמת חוזר לחשבון החשמל",
+  troubleshooting: "איך מזהים תקלה לפני שהיא נראית בחשבון",
 };
 
 export const TOPIC_ORDER: ArticleTopic[] = [
